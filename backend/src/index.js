@@ -5,13 +5,12 @@ import cors from "cors";
 
 import DbConnect from "./lib/db.js";
 import userRoutes from "./routes/user.routes.js";
+import lectureRoutes from "./routes/lecture.routes.js";
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-console.log("JWT_SECRETKEY:", process.env.JWT_SECRETKEY);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,6 +20,7 @@ app.use(cors({
 }));
 
 app.use("/api/user", userRoutes);
+app.use("/api/lectures", lectureRoutes);
 
 DbConnect().then(() => {
   app.listen(PORT, () => {

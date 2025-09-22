@@ -20,6 +20,7 @@ const contentSchema = new mongoose.Schema(
     },
     size: {
       type: Number,  // Changed to Number type
+      
       required: true,
     },
   },

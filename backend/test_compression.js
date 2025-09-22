@@ -1,21 +1,24 @@
-const path = require('path');
-const { compressVideo } = require('./src/lib/compression'); // Adjust path if needed
-    const fs = require('fs');
-const inputFile = path.join(__dirname, 'input_test.mp4');
-const outputFile = path.join(__dirname, 'output_test_compressed.mp4');
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { compressVideo } from './src/lib/compression.js';
+import { statSync } from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const inputFile = join(__dirname, 'input_test.mp4');
+const outputFile = join(__dirname, 'output_test_compressed.mp4');
 
 compressVideo(inputFile, outputFile)
   .then(() => {
-    console.log('Compression finished! Output saved at:', outputFile);
+    console.log('Compression is done! Output saved at', outputFile);
 
+    const originalSize = statSync(inputFile).size;
+    const compressedSize = statSync(outputFile).size;
 
-const originalSize = fs.statSync('input_test.mp4').size;
-const compressedSize = fs.statSync('output_test_compressed.mp4').size;
-
-console.log(`Original: ${originalSize} bytes`);
-console.log(`Compressed: ${compressedSize} bytes`);
-
+    console.log(`Original: ${originalSize} bytes`);
+    console.log(`Compressed: ${compressedSize} bytes`);
   })
   .catch((err) => {
-    console.error('Compression failed:', err);
+    console.log('Error in compressing the file:', err);
   });

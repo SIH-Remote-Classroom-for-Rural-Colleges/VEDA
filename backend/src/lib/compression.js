@@ -1,6 +1,6 @@
-const ffmpeg = require('fluent-ffmpeg');
+import ffmpeg from 'fluent-ffmpeg';
 
-function compressVideo(inputFilePath, outputFilePath) {
+export function compressVideo(inputFilePath, outputFilePath) {
   return new Promise((resolve, reject) => {
     ffmpeg(inputFilePath)
       .videoCodec('libx264')
@@ -20,5 +20,3 @@ function compressVideo(inputFilePath, outputFilePath) {
       .save(outputFilePath);
   });
 }
-
-module.exports = { compressVideo };

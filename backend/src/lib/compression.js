@@ -10,7 +10,9 @@ const { exec } = require('child_process'); // Used to run FFmpeg commands
 function compressVideo(inputFilePath, outputFilePath) {
   return new Promise((resolve, reject) => {
     // Construct the FFmpeg command for compression (H.264 video, AAC audio)
-    const command = `ffmpeg -i "${inputFilePath}" -vcodec libx264 -preset fast -crf 28 -acodec aac -movflags faststart "${outputFilePath}"`;
+const ffmpegPath = 'C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe';
+
+const command = `"${ffmpegPath}" -i "${inputFilePath}" -vcodec libx264 -preset fast -crf 28 -acodec aac -movflags faststart "${outputFilePath}"`;
 
     // Run the command in the shell
     exec(command, (error, stdout, stderr) => {

@@ -1,30 +1,24 @@
-const { exec } = require('child_process'); // Used to run FFmpeg commands
+const ffmpeg = require('fluent-ffmpeg');
 
-/**
- * Compresses a video file using FFmpeg.
- * 
- * @param {string} inputFilePath - Path of the input video file to compress.
- * @param {string} outputFilePath - Path where the compressed video should be saved.
- * @returns {Promise<string>} - Resolves with the output file path when compression is done.
- */
 function compressVideo(inputFilePath, outputFilePath) {
   return new Promise((resolve, reject) => {
-    // Construct the FFmpeg command for compression (H.264 video, AAC audio)
-const ffmpegPath = 'C:\\ffmpeg-8.0-essentials_build\\bin\\ffmpeg.exe';
-
-const command = `"${ffmpegPath}" -i "${inputFilePath}" -vcodec libx264 -preset fast -crf 28 -acodec aac -movflags faststart "${outputFilePath}"`;
-
-    // Run the command in the shell
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error('Compression error:', error);
-        reject(error);  // Something went wrong with compression
-      } else {
-        resolve(outputFilePath); // Return the path of compressed video file
-      }
-    });
+    ffmpeg(inputFilePath)
+      .videoCodec('libx264')
+      .audioCodec('aac')
+      .outputOptions([
+        '-preset fast',
+        '-crf 28',
+        '-movflags faststart'
+      ])
+      .on('error', (err) => {
+        console.error('Compression error:', err);
+        reject(err);
+      })
+      .on('end', () => {
+        resolve(outputFilePath);
+      })
+      .save(outputFilePath);
   });
 }
 
-// Export the function so it can be imported and used elsewhere
 module.exports = { compressVideo };

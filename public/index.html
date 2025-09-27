@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VEDA Chatbot Widget</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./ChatbotSidebar.css" />
+    <style>
+      body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Noto Sans', 'Noto Sans Devanagari', sans-serif; }
+      .container { padding: 20px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>VEDA Demo</h1>
+      <p>Use the chat bubble at the bottom-right to open the bilingual chatbot.</p>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- React and ReactDOM via CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel to transpile JSX in the browser (for ease of running without a build step) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Chatbot component -->
+    <script type="text/babel" src="./ChatbotSidebar.jsx"></script>
+
+    <!-- Mount the widget -->
+    <script type="text/babel">
+      const root = document.getElementById('root');
+      // Render nothing into root; the widget is positioned fixed at bottom-right
+      // but we can still initialize if needed.
+      ReactDOM.createRoot(root).render(<div />);
+
+      // Optionally, you can mount another instance into a dedicated container.
+      // The ChatbotSidebar itself renders as a fixed-position widget.
+      // API base URL points to the same server origin.
+      window.addEventListener('DOMContentLoaded', () => {
+        const mount = document.createElement('div');
+        document.body.appendChild(mount);
+        ReactDOM.createRoot(mount).render(
+          <ChatbotSidebar
+            apiBaseUrl={window.location.origin}
+            initialLang="en"
+            title={{ en: 'Ask VEDA', hi: 'वेदा से पूछें' }}
+          />
+        );
+      });
+    </script>
+  </body>
+</html>

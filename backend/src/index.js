@@ -5,6 +5,7 @@ import cors from "cors";
 import lectureRoutes from './routes/lecture.routes.js'
 import DbConnect from "./lib/db.js";
 import userRoutes from "./routes/user.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 dotenv.config(); 
 
@@ -22,6 +23,7 @@ app.use(cors({
 
 app.use("/api/user", userRoutes);
 app.use('/api',lectureRoutes)
+app.use('/api', chatRoutes);
 
 DbConnect().then(() => {
   app.listen(PORT, () => {

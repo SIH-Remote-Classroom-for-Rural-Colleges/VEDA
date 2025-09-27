@@ -9,6 +9,7 @@ import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import { ChevronDown } from "lucide-react";
 import Admin from "./pages/Admin";
+import ChatbotSidebar from "./components/ChatbotSidebar";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -191,6 +192,13 @@ function App() {
           </div>
         </div>
       </footer>
+      {/* Global bilingual chatbot (English/Hindi) */}
+      <ChatbotSidebar
+        initialLang="en"
+        // Leave apiBaseUrl empty to use Vite dev proxy (/api -> backend)
+        apiBaseUrl=""
+        title={{ en: "Ask VEDA", hi: "वेदा से पूछें" }}
+      />
     </div>
   );
 }
